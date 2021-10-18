@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>JavaScript Form validation</title>
+<link rel="stylesheet" href="style.css">
+<script>
+//https://regex101.com/
+// Defining a function to display error message
+function printError(elemId, hintMsg) {
+    document.getElementById(elemId).innerHTML = hintMsg;
+}
+
+// Defining a function to validate form 
+function validateForm() {
+    // Retrieving the values of form elements 
+    var fname = document.contactForm.fname.value;
+    var lname = document.contactForm.lname.value;
+    var email = document.contactForm.email.value;
+    var mobile = document.contactForm.mobile.value;
+    var state = document.contactForm.state.value;
+    var over18 = document.contactForm.over18;
+    var address = document.contactForm.address.value; 
+    var address2 = document.contactForm.address2.value;
+    var city = document.contactForm.city.value;
+    var zip = document.contactForm.zip.value;
+    var phone = document.contactForm.phone.value;
+    var password = document.contactForm.password.value;
+    var confirmPassword = document.contactForm.confirmPassword.value;
+
+	
+	// Defining error variables with a default value
+    var fnameErr = lnameErr = cityErr = zipErr = phoneErr = passwordErr = confirmPasswordErr = emailErr = mobileErr = stateErr = over18Err = addressErr =address2Err =true;
+    
+    // Validate first name
+    if(fname == "") {
+        printError("fnameErr", "Please enter your first name");
+    } else {
+        var regex = /^[a-zA-Z\s]+$/;                
+        if(regex.test(fname) === false) {
+            printError("fnameErr", "Please enter a valid name");
+        } else {
+            printError("fnameErr", "");
+            fnameErr = false;
+        }
+    }
+
+    // Validate last name
+    if(lname == "") {
+        printError("lnameErr", "Please enter your last name");
+    } else {
+        var regex = /^[a-zA-Z\s]+$/;                
+        if(regex.test(lname) === false) {
+            printError("lnameErr", "Please enter a valid name");
+        } else {
+            printError("lnameErr", "");
+            lnameErr = false;
+        }
+    }
+    
+    // Validate address
+    if(address == "") {
+        printError("addressErr", "Please enter your address");
+    } else {
+        // Regular expression for basic address validation
+		 var regex = /^\d+\s[a-zA-Z\s]+$/;  
+		
+        if(regex.test(address) === false) {
+            printError("addressErr", "Please enter a valid address");
+        } else{
+            printError("addressErr", "");
+            addressErr = false;
+        }
+    }
+    
+
+    // Validate address2
+    if(!address2 == "") {
+              // Regular expression for basic address2 validation
+		 var regex = /[a-zA-Z0-9\s]+$/;  
+		
+        if(regex.test(address2) === false) {
+            printError("address2Err", "Please enter a valid address2");
+        } else{
+            printError("address2Err", "");
+            address2Err = false;
+        }  
+    } 
+
+	
+    // Validate email address
+    if(email == "") {
+        printError("emailErr", "Please enter your email address");
+    } else {
+
+        // Regular expression for basic email validation
+        var regex = /^\S+@\S+\.\S+$/;
+        if(regex.test(email) === false) {
+            printError("emailErr", "Please enter a valid email address");
+        } else{
+            printError("emailErr", "");
+            emailErr = false;
+        }
+    }	
+	
+	
+    // Validate mobile number
+    if(mobile == "") {
+        printError("mobileErr", "Please enter your mobile number");
+    } else {
+        var regex = /^[1-9]\d{9}$/;
+        if(regex.test(mobile) === false) {
+            printError("mobileErr", "Please enter a valid 10 digit mobile number");
+        } else{
+            printError("mobileErr", "");
+            mobileErr = false;
+        }
+    }
+    
+    // Validate state
+    if(state == "") {
+        printError("stateErr", "Please select your state");
+    } else {
+        printError("stateErr", "");
+        stateErr = false;
+    }
+    
+    if(!over18.checked)
+	{
+		printError("over18Err", "You must certify that you are over 18 years.");
+		return false;
+	} else {
+        printError("over18Err", "");
+        over18Err = false;
+    }
+
+    // Validate city
+    if(city == "") {
+        printError("cityErr", "Please enter your city");
+    } else {
+        // Regular expression for basic city validation
+		 var regex = /^[a-zA-Z\s]+$/;  
+		
+        if(regex.test(city) === false) {
+            printError("cityErr", "Please enter a valid city");
+        } else{
+            printError("cityErr", "");
+            cityErr = false;
+        }
+    }
+
+    // Validate zip
+    if(zip == "") {
+        printError("zipErr", "Please enter your zip code");
+    } else {
+        // Regular expression for basic zip validation
+		 var regex = /^\d{5}$|^\d{5}-\d{4}$/;  
+		
+        if(regex.test(zip) === false) {
+            printError("zipErr", "Please enter a valid zip code");
+        } else{
+            printError("zipErr", "");
+            zipErr = false;
+        }
+    }
+
+    // Validate phone number
+    if(phone == "") {
+        printError("phoneErr", "Please enter your phone number");
+    } else {
+        var regex = /^[1-9]\d{9}$/;
+        if(regex.test(phone) === false) {
+            printError("phoneErr", "Please enter a valid 10 digit phone number");
+        } else{
+            printError("phoneErr", "");
+            phoneErr = false;
+        }
+    }
+
+    // Validate password
+    if(password == "") {
+        printError("passwordErr", "Please enter your password");
+    } else {
+        var regex = /(?=^.{8,}$)((?=.*\w)(?=.*[0-9]))^.*/;
+        if(regex.test(password) === false) {
+            printError("passwordErr", "Please enter a valid password");
+        } else{
+            printError("passwordErr", "");
+            passwordErr = false;
+        }
+    }
+
+    //Validate confirm password
+    if(password == confirmPassword){
+        printError("confirmPasswordErr", "");
+        }
+        else{
+            printError("confirmPasswordErr", "Passwords must match");
+        }
+	
+	
+    // Prevent the form from being submitted if there are any errors
+    if((fnameErr || lnameErr || cityErr || zipErr || phoneErr || passwordErr || emailErr || mobileErr || stateErr || over18Err) == true) {
+       return false;
+    } else {
+       return true;
+    }
+
+};
+</script>
+</head>
+<body>
+<form name="contactForm" onsubmit="return validateForm()" action="join.html" method="post">
+    <h2>Application Form</h2>
+
+    <div class="row">
+        <label>First Name</label>
+        <input type="text" name="fname" placeholder="*First Name">
+        <div class="error" id="fnameErr"></div>
+    </div>
+
+    <div class="row">
+        <label>Last Name</label>
+        <input type="text" name="lname" placeholder="*Last Name">
+        <div class="error" id="lnameErr"></div>
+    </div>
+	
+    <div class="row">
+        <label>Address</label>
+        <input type="text" name="address" placeholder="Address">
+        <div class="error" id="addressErr"></div>
+    </div>	
+	
+    <div class="row">
+        <label>Address 2</label>
+        <input type="text" name="address2" placeholder="Address 2">
+        <div class="error" id="address2Err"></div>
+    </div>	
+
+    <div class="row">
+        <label>City/Town</label>
+        <input type="text" name="city" placeholder="*City/Town">
+        <div class="error" id="cityErr"></div>
+    </div>
+
+    <div class="row">
+        <label>State</label>
+        <select name="state">
+                <option value=""></option>
+                <option>Alabama</option>
+                <option>Alaska</option>
+                <option>Arizona</option>
+                <option>Arkansas</option>
+                <option>California</option>
+                <option>Colorado</option>
+                <option>Connecticut</option>
+                <option>Delaware</option>
+                <option>District of Columbia</option>
+                <option>Florida</option>
+                <option>Georgia</option>
+                <option>Hawaii</option>
+                <option>Idaho</option>
+                <option>Illinois</option>
+                <option>Indiana</option>
+                <option>Iowa</option>
+                <option>Kansas</option>
+                <option>Kentucky</option>
+                <option>Louisiana</option>
+                <option>Maine</option>
+                <option>Maryland</option>
+                <option>Mass.</option>
+                <option>Michigan</option>
+                <option>Minnesota</option>
+                <option>Mississippi</option>
+                <option>Missouri</option>
+                <option>Montana</option>
+                <option>Nebraska</option>
+                <option>Nevada</option>
+                <option>New Hampshire</option>
+                <option>New Jersey</option>
+                <option>New Mexico</option>
+                <option>New York</option>
+                <option>North Carolina</option>
+                <option>North Dakota</option>
+                <option>Ohio</option>
+                <option>Oklahoma</option>
+                <option>Oregon</option>
+                <option>Pennsylvania</option>
+                <option>Rhode Island</option>
+                <option>South Carolina</option>
+                <option>South Dakota</option>
+                <option>Tennessee</option>
+                <option>Texas</option>
+                <option>Utah</option>
+                <option>Vermont</option>
+                <option>Virginia</option>
+                <option>Washington</option>
+                <option>West Virginia</option>
+                <option>Wisconsin</option>
+                <option>Wyoming</option>
+        </select>
+        <div class="error" id="stateErr"></div>
+    </div>
+
+    <div class="row">
+        <label>Zip Code</label>
+        <input type="text" name="zip" placeholder="*Zip Code">
+        <div class="error" id="zipErr"></div>
+    </div>
+
+    <div class="row">
+        <label>Phone Number</label>
+        <input type="text" name="phone" placeholder="*Only numbers are allowed" maxlength="10">
+        <div class="error" id="phoneErr"></div>
+    </div>
+
+    <div class="row">
+        <label>Mobile Number</label>
+        <input type="text" name="mobile" placeholder="Only numbers are allowed" maxlength="10">
+        <div class="error" id="mobileErr"></div>
+    </div>
+    	
+    <div class="row">
+        <label>Email Address</label>
+        <input type="text" name="email" placeholder="Email Address">
+        <div class="error" id="emailErr"></div>
+    </div>
+
+    <div class="row">
+        <label>Password</label>
+        <input type="text" name="password" placeholder="*At least eight characters long, with at least one digit">
+        <div class="error" id="passwordErr"></div>
+    </div>
+    
+    <div class="row">
+        <label>Confirm Password</label>
+        <input type="text" name="confirmPassword" placeholder="*Confirm Password">
+        <div class="error" id="confirmPasswordErr"></div>
+    </div>
+	
+    <div class="row">
+        <label>Certify that you are over 18 years</label>
+        <div class="form-inline">
+            <label><input type="checkbox" value="agree" id="over18"> I certify I am 18 years of age or older</label>
+		     <div class="error" id="over18Err"></div>
+        </div>
+    </div>	
+	
+	
+    <div class="row">
+        <input type="submit" value="Submit">
+    </div>
+</form>
+</body>
+</html>
